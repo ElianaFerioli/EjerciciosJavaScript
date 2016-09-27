@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script>
+			var inicio = 0;
+			function iniciar(){
+				//Por si le da más de una vez a "aceptar" el div vuelve a 0
+				document.getElementById("progresion").style.width = "0px";
+				inicio = 0;
+				//
+				document.getElementById("progresion").style.backgroundColor = document.getElementById("color").value;
+				document.getElementById("progresion").style.height = "100px";
+				var intervalo =  setInterval(function(){
+						document.getElementById("empezar").disabled = true;
+						if(inicio< document.getElementById("longitud").value){
+							inicio++;
+							document.getElementById("progresion").style.width = inicio + "px";
+							document.getElementById("porcentaje").innerHTML = inicio + "%";
+						} else {
+							document.getElementById("empezar").disabled = false;
+							clearInterval(intervalo);
+							document.getElementById("empezar").disabled = false;
+						}
+					}, document.getElementById("tiempo").value);
+			}
+		</script>
+	</head>
+	<body>
+		Longitud: 
+		<input id="longitud" type="number" placeholder="Introduce una longitud">
+		<br>
+		Color: 
+		<input id="color" type="color">
+		<br>
+		Tiempo X pixel: 
+		<input id="tiempo" type="number" placeholder="Introduce un tiempo">
+		<br>
+		<input type="button" id="empezar" value="Aceptar" onclick="iniciar()">
+		<div id="porcentaje"></div>
+		<div id="progresion"></div>
+	</body>
+</html>

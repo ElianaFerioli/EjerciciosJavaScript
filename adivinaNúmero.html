@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script>
+			//Variable inicial de la cuenta
+			var numAleatorio = Math.floor((Math.random()*10)+1);
+			var parar = false;
+			var intentos = 0;
+			console.log(numAleatorio);
+			function iniciar(){
+					var cuenta = 10;
+					document.getElementById("empezar").disabled = true;
+					var intervalo =  setInterval(function(){
+						if((cuenta>0)&&(!parar)){
+							cuenta--;
+							document.getElementById("miCuenta").innerHTML = cuenta;
+						} else {
+							document.getElementById("empezar").disabled = false;
+							clearInterval(intervalo);
+						}
+					}, 1000);
+				}
+			function compara(){
+						if(numAleatorio==document.getElementById("numUsuario").value){
+							document.getElementById("resultado").innerHTML = "Has acertado!";
+							parar = true;
+							
+						} else {
+							intentos++;
+							document.getElementById("resultado").innerHTML = "Sigue intentando";
+						}
+						document.getElementById("intentos").innerHTML = "Intentos: " + intentos;
+				}
+		</script>
+	</head>
+	<body>
+		<input type="button" id="empezar" value="Empezar cuenta atrás" onclick="iniciar()">
+		<div id="miCuenta"></div>
+		<h1>Adivina</h1>
+		<input id="numUsuario" type="number" placeholder="Introduce un numero">
+		<input type="button" id="guess" value="ok" onclick="compara()">
+		<div id="intentos"></div>
+		<div id="resultado"></div>
+	</body>
+</html>

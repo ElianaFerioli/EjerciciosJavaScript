@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			#contenedor {
+				width: 1500px;
+				height: 800px;
+			}
+			.circulo{
+				border-radius: 100%;
+				position: absolute;
+			}			
+		</style>
+		<script>
+			var numBolitas = 0;
+			//Crea las bolitas
+			function iniciar() {
+				numBolitas++;
+				//Crea un nuevo circulo
+				var contenedor = document.getElementById("contenedor");
+				var circulo = document.createElement("div");
+				circulo.className = "circulo";
+				contenedor.appendChild(circulo);
+				//Le asigna el estilo
+				var pixeles = Math.floor((Math.random()*100)+10) + "px";
+				circulo.style.width = pixeles;
+				circulo.style.height = pixeles;
+				circulo.style.backgroundColor = "black";
+				//Le asigna una posicion
+				circulo.style.top =  Math.floor((Math.random()*100)+1) + "%";
+				circulo.style.left =  Math.floor((Math.random()*100)+1) + "%";
+				//Le asigna un color
+				var red = Math.floor((Math.random()*255)+0);
+				var green = Math.floor((Math.random()*255)+0);
+				var blue = Math.floor((Math.random()*255)+0);
+				circulo.style.backgroundColor = "rgb(" + red + ", " + green + ", " + blue + ")";
+				//Le asigna un id y un onclick
+				circulo.setAttribute("id", "circulo" + numBolitas);
+				circulo.setAttribute("onClick", "borrar(" + circulo.getAttribute("id") + ")");				
+			}
+			
+			//Elimina las bolitas
+			function borrar(circuloId){
+				circuloId.parentNode.removeChild(circuloId);
+			}
+			
+			//Limpia la pantalla
+			function limpiar(){
+				var arrayCirculos = document.getElementsByClassName("circulo");
+				var x = arrayCirculos.length;				
+				for(var i = arrayCirculos.length - 1; i >= 0 ; i--){
+					var cir = document.getElementById(arrayCirculos[i].id);
+					cir.parentNode.removeChild(cir);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<input type="button" id="crear" value="Crear" onclick="iniciar()">
+		<input type="button" id="limpiar" value="Limpiar" onclick="limpiar()">
+		<div id="contenedor"></div>
+	</body>
+</html>

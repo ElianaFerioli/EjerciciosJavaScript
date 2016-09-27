@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			//Variable inicial de la cuenta
+			function iniciar(){
+					var cuenta = document.getElementById("empieza").value;
+					document.getElementById("okbtn").disabled = true;
+					var intervalo =  setInterval(function(){
+						if(cuenta>0){
+							cuenta--;
+							document.getElementById("miCuenta").innerHTML = cuenta;
+						} else {
+							document.getElementById("okbtn").disabled = false;
+							clearInterval(intervalo);
+						}
+					}, 1000);
+				}
+		</script>
+	</head>
+	<body>
+		<form>
+			<input id="empieza" type="number" placeholder="Introduce un numero">
+			<input type="button" id="okbtn" value="ok" onclick="iniciar()">
+		</form>
+		<div id="miCuenta"></div>
+	</body>
+</html>

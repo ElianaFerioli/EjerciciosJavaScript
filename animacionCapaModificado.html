@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+		#container {
+		  width: 400px;
+		  height: 400px;
+		  position: relative;
+		  background: yellow;
+		}
+		#animate {
+		  width: 50px;
+		  height: 50px;
+		  border-radius: 100%;
+		  position: absolute;
+		  background-color: red;
+		}
+		</style>
+	</head>	
+	<body>
+		<p>
+			<button onclick="myMove()">Click Me</button>
+		</p>
+		<div id ="container">
+			<div id ="animate"></div>
+		</div>
+		<script>
+		function myMove() {
+		  var elem = document.getElementById("animate");
+		  var posHorizontal = 0;
+		  var posVertical = 0;
+		  var recorrido = 0;
+		  var recorridoDer = true;
+		  var id = setInterval(frame, 5);
+		  function frame() {
+			if (recorrido == 1400) {
+			  clearInterval(id);
+			} else {
+				if(recorridoDer) {
+					if((posHorizontal<350)&&(posVertical==0)) {
+						elem.style.left = posHorizontal + 'px';
+						posHorizontal++;
+						recorrido++;
+					} else if((posVertical<350)&&(posHorizontal==350)){
+						elem.style.top = posVertical + 'px';
+						posVertical++;
+						recorrido++;
+					} else if((posVertical==350)&&(posHorizontal==350)){
+						recorridoDer = false;
+					}
+				} else {
+					if((posHorizontal>0)&&(posVertical==350)){
+						elem.style.left = posHorizontal + 'px';
+						posHorizontal--;
+						recorrido++;
+					} else if((posVertical> 0)&&(posHorizontal==0)){
+						elem.style.top = posVertical + 'px';
+						posVertical--;
+						recorrido++;
+					}				
+				}			 
+			}
+		  }
+		}
+		</script>
+	</body>
+</html>
