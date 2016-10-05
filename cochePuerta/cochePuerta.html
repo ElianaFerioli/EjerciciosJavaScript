@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+<style>
+	#contenedor{
+		width: 1100px;
+		height: 300px;
+		border-bottom: 1px solid black;
+	}
+	#coche{
+		position: relative;
+		width: 100px;
+		height: 100px;
+		top: 199px;
+		background-image: url('./coche.png');
+	}
+	#puerta{
+		position: relative;
+		width: 10px;
+		height: 195px;
+		left: 600px;
+		border: 1px solid green;
+	}
+</style>
+	<script>
+	var coche;
+	var puertaAbierta = true;
+	var pararCoche = false;
+	var avanzaCoche = true;
+		function avanzar(){
+			var botonPuertaAb = document.getElementById("abierta");
+			var botonPuertaCe = document.getElementById("cerrada");
+			botonPuertaAb.setAttribute("disabled", "true");
+			botonPuertaCe.setAttribute("disabled", "true");
+			c = document.getElementById("coche");
+			coche = c;
+			var left =  coche.offsetLeft;
+			//si la puerta esta abierta y avanza el coche
+			if((puertaAbierta)&&(avanzaCoche)){
+				var intervalo = setInterval(function(){
+						//si no se pulsa el botón parar
+						if(!pararCoche){
+									if(left < 1000){
+										left++;
+										coche.style.left = left + "px";
+									} else {
+										clearInterval(intervalo);
+									}
+						} else { //si se pulsa el botón parar
+							clearInterval(intervalo);
+						}
+					}, 5);
+			//puerta abierta y el coche retrocede
+			} else if(((puertaAbierta)&&(!avanzaCoche))){
+				var intervalo = setInterval(function(){
+						//si no se pulsa el botón parar
+						if(!pararCoche){
+									if(left > 0){
+										left--;
+										coche.style.left = left + "px";
+									} else {
+										clearInterval(intervalo);
+									}
+						} else { //si se pulsa el botón parar
+							clearInterval(intervalo);
+						}
+					}, 5);
+			
+			} else { //caso de que la puerta esté cerrada
+				if((avanzaCoche)&&(left < 590)){ //caso de que se avance y este del lado derecho
+					var intervalo = setInterval(function(){
+						//si no se pulsa el botón parar
+						if(!pararCoche){
+									if(left < 500){
+										left++;
+										coche.style.left = left + "px";
+									} else {
+										clearInterval(intervalo);
+									}
+						} else { //si se pulsa el botón parar
+							clearInterval(intervalo);
+						}
+					}, 5);					
+				} else if((avanzaCoche)&&(left > 600)){//caso de que se avance y se este del lado izquierdo
+					var intervalo = setInterval(function(){
+						//si no se pulsa el botón parar
+						if(!pararCoche){
+									if(left < 1000){
+										left++;
+										coche.style.left = left + "px";
+									} else {
+										clearInterval(intervalo);
+									}
+						} else { //si se pulsa el botón parar
+							clearInterval(intervalo);
+						}
+					}, 5);
+				} else if((!avanzaCoche)&&(left < 590)){ //caso de que se retrocede y se este del lado derecho
+					var intervalo = setInterval(function(){
+						//si no se pulsa el botón parar
+						if(!pararCoche){
+									if(left > 0){
+										left--;
+										coche.style.left = left + "px";
+									} else {
+										clearInterval(intervalo);
+									}
+						} else { //si se pulsa el botón parar
+							clearInterval(intervalo);
+						}
+					}, 5);
+				} else if((!avanzaCoche)&&(left>600)){//caso de que se retrocede y se este del lado izquierdo
+					var intervalo = setInterval(function(){
+						//si no se pulsa el botón parar
+						if(!pararCoche){
+									if(left > 600){
+										left--;
+										coche.style.left = left + "px";
+									} else {
+										clearInterval(intervalo);
+									}
+						} else { //si se pulsa el botón parar
+							clearInterval(intervalo);
+						}
+					}, 5);
+				}
+			}
+		}
+		
+		function abrirPuerta(){
+			puertaAbierta = true;
+			var p = document.getElementById("puerta");
+			p.style.backgroundColor = "white";
+			
+		}
+		function cerrarPuerta(){
+			puertaAbierta = false;
+			var p = document.getElementById("puerta");
+			p.style.backgroundColor = "green";
+		}
+		function parar(){
+			pararCoche = true;
+			var botonPuertaAb = document.getElementById("abierta").disabled = false;
+			var botonPuertaCe = document.getElementById("cerrada").disabled = false;
+		}
+		function retroceder(){
+			avanzaCoche = false;
+			pararCoche = false;
+			avanzar();
+		}
+		function avanza(){
+			pararCoche = false;
+			avanzaCoche = true;
+			avanzar();
+		}
+			
+    </script>
+<body>
+<input type="button" value="avanzar" onclick="avanza()"/>
+<input type="button" value="retroceder" onclick="retroceder()"/>
+<input type="button" value="parar" onclick="parar()"/>
+<input type="button" value="abierta" onclick="abrirPuerta()" id="abierta"/>
+<input type="button" value="cerrar puerta" onclick="cerrarPuerta()" id="cerrada"/>
+<div id="contenedor">
+	<div id="coche">
+    </div>
+    <div id="puerta">
+    </div>
+</div>
+</body>
+</html>

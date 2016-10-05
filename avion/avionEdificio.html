@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				overflow: hidden;
+			}
+			.edificio {
+				display: inline;
+				width: 250px;
+				height: 300px;
+				position: absolute;
+				top: 350px;
+			}
+			#avion {
+				width: 200px;
+				height: 100px;
+				top: 50px;
+				position: absolute;
+			}
+			#bomba {
+				position: absolute;
+				top: 100px;
+				width: 50px;
+				height: 50px;
+			}
+		</style>
+		<script>
+			var numeroBombas = 3;
+			var numeEdificiosDestruidos = 0;
+			function empezar() {
+				var contenedor = document.getElementById("contenedor");
+				//crea los edificios
+				var margenMinimo = 0;
+				for(var i = 1; i <= 3; i++){
+					var edificio = document.createElement("div");
+					contenedor.appendChild(edificio);
+					edificio.setAttribute("id", "edificio" + i);
+					edificio.setAttribute("class", "edificio");
+					//le asigna la posicion
+					var margenMinimo = Math.floor((Math.random()*200)+margenMinimo);
+					edificio.style.left = margenMinimo + "px";
+					margenMinimo = margenMinimo + 300;
+					//le asigna la imagen
+					var imagenEdificio = document.createElement("img");
+					imagenEdificio.setAttribute("id", "imagenEdificio" + i);
+					imagenEdificio.setAttribute("width", "100%");
+					imagenEdificio.setAttribute("height", "100%");
+					imagenEdificio.setAttribute("src", "./img/edificio.png");
+					edificio.appendChild(imagenEdificio)
+					
+				}				
+				
+				var left = 0;
+				//Crea el avioncito
+				var avion = document.createElement("div");
+				contenedor.appendChild(avion);
+				avion.setAttribute("id", "avion");
+				avion.setAttribute("onClick", "bomba()");
+				//crea la imagen
+				var imagen = document.createElement("img");
+				avion.appendChild(imagen);
+				imagen.setAttribute("width", "200px");
+				imagen.setAttribute("height", "100px");
+				imagen.setAttribute("id", "imagenAvion");
+				imagen.setAttribute("src", "./img/avion.png");				
+				//Hace que se mueva
+				var intervalo =  setInterval(function(){
+						if(left<1400){
+							left++;
+							avion.style.left = left + "px";
+						} else {						
+							clearInterval(intervalo);
+						}
+					}, 5);
+				
+			}
+			
+			function bomba(){
+				if(numeroBombas > 0) {
+					numeroBombas--;
+					//Cambia el panel de informacion
+					document.getElementById("numBom").innerHTML = "Numero de bombas: " + numeroBombas;
+					//recupera elementos
+					var contenedor = document.getElementById("contenedor");
+					var avion = document.getElementById("avion");
+					var left = avion.offsetLeft;
+					//crea la bomba
+					var bomba =  document.createElement("div");
+					contenedor.appendChild(bomba);
+					bomba.setAttribute("id", "bomba");
+					bomba.style.left = left + "px";
+					//crea la imagen
+					var imagen = document.createElement("img");
+					bomba.appendChild(imagen);
+					imagen.style.width = "50px";
+					imagen.style.height = "50px";
+					imagen.setAttribute("id", "imagenBomba");
+					imagen.setAttribute("src", "./img/bomba.png");		
+					//hace caer la bomba
+					var top = 100;
+					var intervalo =  setInterval(function(){
+							if(top<600){
+								top++;
+								bomba.style.top = top + "px";
+								if(top==599){
+									for(var x = 1; x <=3; x++){
+										var edificio = document.getElementById("edificio" + x);
+										//Corrobora si la bomba cae en el lugar correcto
+										if((left>=edificio.offsetLeft)&&(left<=(edificio.offsetLeft + 250))){
+											//cambia la imagen de la bomba
+											var edificioImagen = document.getElementById("imagenEdificio" +x);
+											edificioImagen.setAttribute("src", "./img/explosion.png");
+											bomba.parentNode.removeChild(bomba);
+											//Cambia la informacion del panel
+											numeEdificiosDestruidos++;
+											document.getElementById("edifDes").innerHTML = "Edificios destruidos: " + numeEdificiosDestruidos;
+											if(numeEdificiosDestruidos==3){
+												document.getElementById("game").innerHTML = "You Win!";
+											}
+										}								
+									}
+								}
+							} else {
+								clearInterval(intervalo);
+							}
+						}, 5);
+				}
+			}
+				
+		</script>
+	</head>
+	<body>
+		<p id="numBom">Numero de bombas: 3</p>
+		<p id="edifDes">Edificios destruidos: 0</p>
+		<p id="game"></p>
+		<div id="contenedor">
+		</div>
+		<script>
+			empezar();
+		</script>
+	</body>
+</html>
