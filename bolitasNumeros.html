@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+<style>
+	.bola{
+		border: 1px solid black;
+		border-radius: 100%;
+		width: 100px;
+		height: 100px;
+		position: absolute;
+	}
+</style>
+<script>
+	var contenedor;
+	var numBola = 1;
+	function empezar(){
+		var divContenedor = document.getElementById("contenedor");
+		contenedor = divContenedor;
+		//Crea la primer bola
+		var bola = document.createElement("div");
+		bola.setAttribute("id", "bola" + numBola);
+		bola.setAttribute("class", "bola");
+		bola.style.top = Math.floor(Math.random() * 600) + "px";
+		bola.style.left = Math.floor(Math.random() * 1100) + "px";
+		bola.setAttribute("value", numBola);
+		divContenedor.appendChild(bola);
+		bola.setAttribute("OnClick", "nuevaBola(" + bola.getAttribute("value") + ")");
+		bola.setAttribute("ondblclick", "borrarBola(" + bola.getAttribute("id") + ")");
+		bola.innerHTML = bola.getAttribute("value");	
+	}
+	
+	function nuevaBola(bolaAnterior){
+		numBola++;
+		var valor = bolaAnterior;
+		//Crea una nueva bola
+		var bola = document.createElement("div");
+		bola.setAttribute("id", "bola" + numBola);
+		bola.setAttribute("class", "bola");
+		bola.style.top = Math.floor(Math.random() * 600) + "px";
+		bola.style.left = Math.floor(Math.random() * 1100) + "px";		
+		bola.setAttribute("value", (valor+1));
+		contenedor.appendChild(bola);
+		bola.setAttribute("OnClick", "nuevaBola(" + bola.getAttribute("value") + ")");
+		bola.setAttribute("ondblclick", "borrarBola(" + bola.getAttribute("id") + ")");
+		bola.innerHTML = bola.getAttribute("value");
+	}
+	
+	function borrarBola(bolaId){
+		var bola = document.getElementById(bolaId.id);
+		bola.parentNode.removeChild(bola);
+	}
+</script>
+</head>
+
+<body>
+	<div id="contenedor">
+    	<script>
+        	empezar();
+        </script>
+    </div>
+</body>
+</html>
